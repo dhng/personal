@@ -2,11 +2,12 @@ package main
 
 import (
 "fmt"
+"html/template"
 "net/http"
 )
-
 func main() {
     http.HandleFunc("/", indexHandler)
+    http.HandleFunc("/index", indexHandler)
     fmt.Println("listening...")
     err := http.ListenAndServe(":8080", nil)
     if err != nil {
@@ -14,16 +15,7 @@ func main() {
     }
 }
 
-func index(res http.ResponseWriter, req *http.Request) {
-    fmt.Fprintln(res, "index page")
-}
-
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-    title := r.URL.Path[len("/edit/"):]
-    p, err := loadPage(title)
-    if err != nil {
-        p = &Page{Title: title}
-    }
-    t, _ := template.ParseFiles("edit.html")
-    t.Execute(w, p)
+    t, _ := template.ParseFiles("views/index.html")  // Parse template file.
+    t.Execute(w, nil)  // merge.
 }
