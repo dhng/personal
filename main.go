@@ -10,12 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Record struct {
-	Data struct {
-		IsSilhouette bool `json:""is_silhouette`
-		URL string `json:"url"`
-	} `json:"data"`
-}
 
 func getFbPhoto() string {
 	url := "http://graph.facebook.com/899295334/picture?type=large&redirect=false"
@@ -26,6 +20,12 @@ func getFbPhoto() string {
 	if doErr != nil { log.Fatal("Do: ", doErr); return "" }
 	body, readErr := ioutil.ReadAll(res.Body)
 	if readErr != nil { log.Fatal(readErr); return "" }
+	type Record struct {
+		Data struct {
+			IsSilhouette bool `json:""is_silhouette`
+			URL string `json:"url"`
+		} `json:"data"`
+	}
 	var rec Record
 	jsonErr := json.Unmarshal(body, &rec)
 	if jsonErr != nil { log.Fatal(jsonErr); return "" }
