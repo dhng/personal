@@ -1,33 +1,37 @@
-.jumbotron {
-  background: #532F8C;
-  color: white;
-  padding-bottom: 80px;
+h1 {
+    font-size: 50px;
 }
-.jumbotron .btn-primary {
-  background: #845ac7;
-  border-color: #845ac7;
+h2{
+
 }
-.jumbotron .btn-primary:hover {
-  background: #7646c1; 
+h5{
+
 }
-.jumbotron p {
-  color: #d9ccee;
-  max-width: 75%;
-  margin: 1em auto 2em; 
+body {
+  font-family: 'Audiowide';
+}
+.container {
+  max-width: 900px;
+}
+.section {
+  padding: 30px 0 30px 0;
+  border-top: 1px solid #ccc;
 }
 .navbar + .jumbotron {
   margin-top: -20px; 
 }
-.jumbotron .lang-logo {
+.profile-picture {
   display: block;
-  background: #B01302;
   border-radius: 50%;
   overflow: hidden;
   width: 100px;
   height: 100px;
-  margin: auto;
+  margin: 0 10px 0 0;
   border: 2px solid white; 
-}
-.jumbotron .lang-logo img {
+  box-shadow: 0px 0px 10px #000;
   max-width: 100%; 
+}
+.resume-content {
+  padding-left:20px;
+  border-left: 1px solid #ccc;
 }
