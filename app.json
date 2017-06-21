@@ -4,8 +4,7 @@
   "keywords": [
     "dnguyen",
     "go",
-    "Duy",
-    "Hai"
+    "Duy Hai"
   ],
   "image": "heroku/go:1.7.3",
   "mount_dir": "src/github.com/dnguyen86/cv-site",
