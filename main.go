@@ -1,55 +1,64 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"io/ioutil"
 	"os"
 	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 )
 
-func getFbPhoto() {
-	// url_result => get "data" => "url"
+type Record struct {
+	Data struct {
+		IsSilhouette bool `json:""is_silhouette`
+		URL string `json:"url"`
+	} `json:"data"`
+}
+
+func getFbPhoto() string {
 	url := "http://graph.facebook.com/899295334/picture?type=large&redirect=false"
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		log.Fatal("NewRequest: ", err)
-		return
+	req, reqErr := http.NewRequest("GET", url, nil)
+	if reqErr != nil {
+		log.Fatal("NewRequest: ", reqErr)
+		return ""
 	}
 	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal("Do: ", err)
-		return
+	res, doErr := client.Do(req)
+	if doErr != nil {
+		log.Fatal("Do: ", doErr)
+		return ""
 	}
-	defer resp.Body.Close()
-	type Message struct {
-		is_silhouette, url string
-	}
-	var record Message
-	if err := json.NewDecoder(resp.Body).Decode(&record); err != nil {
-		log.Println(err)
-	}
-	fmt.Println(record)
-	fmt.Println()
+	body, readErr := ioutil.ReadAll(res.Body)
+	if readErr != nil {
+        log.Fatal(readErr)
+		return ""
+    }
+	var rec Record
+	if jsonErr := json.Unmarshal(body, &rec); jsonErr != nil {
+        log.Fatal(jsonErr)
+		return ""
+    }
+	return rec.Data.URL
 }
+
 func main() {
-	getFbPhoto()
 	port := os.Getenv("PORT")
 
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
-	router := gin.New()
+	router := gin.Default()
 	router.Use(gin.Logger())
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+		c.HTML(http.StatusOK, "index.tmpl.html", gin.H{
+			"photoLink": getFbPhoto(),
+		})
 	})
 
 	router.Run(":" + port)
