@@ -20,26 +20,15 @@ type Record struct {
 func getFbPhoto() string {
 	url := "http://graph.facebook.com/899295334/picture?type=large&redirect=false"
 	req, reqErr := http.NewRequest("GET", url, nil)
-	if reqErr != nil {
-		log.Fatal("NewRequest: ", reqErr)
-		return ""
-	}
+	if reqErr != nil { log.Fatal("NewRequest: ", reqErr); return "" }
 	client := &http.Client{}
 	res, doErr := client.Do(req)
-	if doErr != nil {
-		log.Fatal("Do: ", doErr)
-		return ""
-	}
+	if doErr != nil { log.Fatal("Do: ", doErr); return "" }
 	body, readErr := ioutil.ReadAll(res.Body)
-	if readErr != nil {
-        log.Fatal(readErr)
-		return ""
-    }
+	if readErr != nil { log.Fatal(readErr); return "" }
 	var rec Record
-	if jsonErr := json.Unmarshal(body, &rec); jsonErr != nil {
-        log.Fatal(jsonErr)
-		return ""
-    }
+	jsonErr := json.Unmarshal(body, &rec)
+	if jsonErr != nil { log.Fatal(jsonErr); return "" }
 	return rec.Data.URL
 }
 
