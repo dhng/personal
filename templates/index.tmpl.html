@@ -12,35 +12,25 @@
 
   <div style="padding: 0 0 30px 0;">
     <div class="text-center">
-        <h1>DUY HAI NGUYEN</h1>
-        <h2>WEB DEVELOPPER</h2>
+        <h1><b>DUY HAI NGUYEN</b></h1>
+        <h2>SOFTWARE DEVELOPER</h2>
         <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum varius risus ut purus dignissim sed sagittis libero rutrum.</h3>
     </div>
   </div>
-  <div class="section">
-    <div class="row">
+  <div class="section" style="border-top: 1px solid #ccc;">
       {{template "about.tmpl.html" .}}
-    </div> <!-- row -->
   </div> <!-- section -->
   <div class="section">
-    <div class="row">
-      {{template "expertise.tmpl.html"}}
-    </div> <!-- row -->
+      {{template "expertise.tmpl.html" .}}
   </div> <!-- section -->
   <div class="section">
-    <div class="row">
-      {{template "experience.tmpl.html"}}
-    </div> <!-- row -->
+      {{template "experience.tmpl.html" .}}
   </div> <!-- section -->
   <div class="section">
-    <div class="row">
-      {{template "education.tmpl.html"}}
-    </div> <!-- row -->
+      {{template "education.tmpl.html" .}}
   </div> <!-- section -->
   <div class="section">
-    <div class="row">
-      {{template "portfolio.tmpl.html"}}
-    </div> <!-- row -->
+      {{template "portfolio.tmpl.html" .}}
   </div> <!-- section -->
   </div>
 </body>
