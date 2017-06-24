@@ -45,8 +45,10 @@ func main() {
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
+		description := "Hello my name is Duy Hai NGUYEN"
 		c.HTML(http.StatusOK, "index.tmpl.html", gin.H{
 			"photoLink": getFbPhoto(),
+			"description": description,
 		})
 	})
 
