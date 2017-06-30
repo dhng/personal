@@ -8,8 +8,43 @@ import (
 	"encoding/json"
 
 	"github.com/gin-gonic/gin"
+
+	"fmt"
+	"github.com/yanatan16/golang-instagram/instagram"
+	"net/url"
 )
 
+func DoSomeInstagramApiStuff(accessToken string) {
+	api := New("", accessToken)
+
+	if ok, err := api.VerifyCredentials(); !ok {
+		panic(err)
+	}
+
+	var myId string
+
+	// Get yourself!
+	if resp, err := api.GetSelf(); err != nil {
+		panic(err)
+	} else {
+	    // A response has two fields: Meta which you shouldn't really care about
+	    // And whatever your getting, in this case, a User
+		me := resp.User
+		fmt.Printf("My userid is %s and I have %d followers\n", me.Id, me.Counts.FollowedBy)
+	}
+
+	params := url.Values{}
+	params.Set("count", "1")
+	if resp, err := api.GetUserRecentMedia("self" /* this works :) */, params); err != nil {
+		panic(err)
+	} else {
+	    if len(resp.Medias) == 0 { // [sic]
+	    	panic("I should have some sort of media posted on instagram!")
+	    }
+	    media := resp.Medias[0]
+	    fmt.Println("My last media was a %s with %d comments and %d likes. (url: %s)\n", media.Type, media.Comments.Count, media.Like.Count, media.Link)
+	}
+}
 
 func getFbPhoto() string {
 	url := "http://graph.facebook.com/899295334/picture?type=large&redirect=false"
